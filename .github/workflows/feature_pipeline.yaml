@@ -1,7 +1,7 @@
 name: taxi_rides_hourly_features_pipeline
 on:
   schedule:
-    - cron: "1 * * * *"  # Runs every hour
+    - cron: "0 * * * *"  # Runs every hour
   workflow_dispatch: {}  # Allows manual triggering of the workflow
 
 jobs:
@@ -28,4 +28,4 @@ jobs:
       - name: Run new data fetch pipeline and load to hopsworks
         env:
           HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
-        run: python pipelines/feature_pipeline.py
+        run: python src/feature_pipeline.py
