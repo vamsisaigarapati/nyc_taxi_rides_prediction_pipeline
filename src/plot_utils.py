@@ -24,8 +24,8 @@ def plot_aggregated_time_series(
         plotly.graph_objects.Figure: A Plotly figure object showing the time series plot.
     """
     # Extract the specific location's features and target
-    location_features = features[features["pickup_location_id" == row_id]]
-    actual_target = targets[targets["pickup_location_id" == row_id]]
+    location_features = features[features["pickup_location_id"] == row_id]
+    actual_target = targets
 
     # Identify time series columns (e.g., historical ride counts)
     time_series_columns = [
