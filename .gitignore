@@ -1,6 +1,4 @@
 data/
-.github/workflows/inference_pipeline.yaml
-.github/workflows/model_training_pipeline.yaml
 # Created by https://www.toptal.com/developers/gitignore/api/python,vs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,vs
 ### Python ###
