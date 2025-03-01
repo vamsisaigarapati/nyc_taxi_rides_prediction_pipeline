@@ -2,10 +2,10 @@ import logging
 import os
 import sys
 from datetime import datetime, timedelta, timezone
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
+
 import hopsworks
 import pandas as pd
-
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
 import src.config as config
 from src.data_utils import fetch_batch_raw_data, transform_raw_data_into_ts_data
 
