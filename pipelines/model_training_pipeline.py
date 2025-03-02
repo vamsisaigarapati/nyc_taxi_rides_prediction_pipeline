@@ -15,7 +15,7 @@ from src.pipeline_utils import get_pipeline
 
 print(f"Fetching data from group store ...")
 ts_data = fetch_days_data(180)
-
+print(len(ts_data))
 print(f"Transforming to ts_data ...")
 
 features, targets = transform_ts_data_info_features_and_target(
@@ -23,6 +23,8 @@ features, targets = transform_ts_data_info_features_and_target(
 )
 pipeline = get_pipeline()
 print(f"Training model ...")
+
+
 
 pipeline.fit(features, targets)
 

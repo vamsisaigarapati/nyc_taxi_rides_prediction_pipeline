@@ -5,9 +5,8 @@ from datetime import datetime, timedelta, timezone
 
 import hopsworks
 import pandas as pd
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
+# sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "..")))
 import src.config as config
-from src.inference import get_feature_store
 from src.data_utils import fetch_batch_raw_data, transform_raw_data_into_ts_data
 
 # Configure logging
@@ -27,7 +26,7 @@ logger.info(f"Current date and time (UTC): {current_date}")
 
 # Step 2: Define the data fetching range
 fetch_data_to = current_date
-fetch_data_from = current_date - timedelta(days=28)
+fetch_data_from = current_date - timedelta(days=365)
 logger.info(f"Fetching data from {fetch_data_from} to {fetch_data_to}")
 
 # Step 3: Fetch raw data

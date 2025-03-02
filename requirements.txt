@@ -3,7 +3,7 @@ folium
 geopandas
 hopsworks
 ipywidgets
-lightgbm
+lightgbm==4.5.0
 matplotlib
 mlflow
 notebook
