@@ -26,7 +26,7 @@ logger.info(f"Current date and time (UTC): {current_date}")
 
 # Step 2: Define the data fetching range
 fetch_data_to = current_date
-fetch_data_from = current_date - timedelta(days=365)
+fetch_data_from = current_date - timedelta(days=28)
 logger.info(f"Fetching data from {fetch_data_from} to {fetch_data_to}")
 
 # Step 3: Fetch raw data
@@ -40,7 +40,10 @@ ts_data = transform_raw_data_into_ts_data(rides)
 logger.info(
     f"Transformation complete. Number of records in time-series data: {len(ts_data)}"
 )
-
+current_hour = (pd.Timestamp.now(tz="Etc/UTC") - timedelta(hours=12)).floor("h")
+current_hour_str = current_hour.strftime('%Y-%m-%d %H:%M:%S') 
+print(current_hour)
+print(ts_data.sort_values(by=["pickup_hour"], ascending=False))
 # Step 5: Connect to the Hopsworks project
 logger.info("Connecting to Hopsworks project...")
 project = hopsworks.login(
@@ -72,5 +75,5 @@ logger.info("Feature group ready.")
 
 # Step 8: Insert data into the feature group
 logger.info("Inserting data into the feature group...")
-feature_group.insert(ts_data, write_options={"wait_for_job": False})
+feature_group.insert(ts_data, write_options={"wait_for_job": False,"operation": "upsert"})
 logger.info("Data insertion completed.")

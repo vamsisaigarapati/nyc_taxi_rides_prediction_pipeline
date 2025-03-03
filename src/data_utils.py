@@ -494,8 +494,9 @@ def fetch_batch_raw_data(
     else:
         rides = rides_from
     # Shift the data forward by 52 weeks to simulate recent data
+    print(rides.sort_values(by=["pickup_datetime"], ascending=False))
     rides["pickup_datetime"] += timedelta(weeks=52)
-
+    print(rides.sort_values(by=["pickup_datetime"], ascending=False))
     # Sort the data for consistency
     rides.sort_values(by=["pickup_location_id", "pickup_datetime"], inplace=True)
 

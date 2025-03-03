@@ -40,7 +40,9 @@ ts_data = transform_raw_data_into_ts_data(rides)
 logger.info(
     f"Transformation complete. Number of records in time-series data: {len(ts_data)}"
 )
-
+current_hour = (pd.Timestamp.now(tz="Etc/UTC") - timedelta(hours=12)).floor("h")
+current_hour_str = current_hour.strftime('%Y-%m-%d %H:%M:%S') 
+print(ts_data.sort_values(by=["pickup_hour"], ascending=False))
 # Step 5: Connect to the Hopsworks project
 logger.info("Connecting to Hopsworks project...")
 project = hopsworks.login(
