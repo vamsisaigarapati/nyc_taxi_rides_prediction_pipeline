@@ -215,7 +215,7 @@ def load_shape_data_file(
 
 # st.set_page_config(layout="wide")
 
-current_date = pd.Timestamp.now(tz="Etc/UTC")
+current_date = pd.Timestamp.now(tz="America/New_York")
 st.title(f"New York Yellow Taxi Cab Demand Next Hour")
 st.header(f'{current_date.strftime("%Y-%m-%d %H:%M:%S")}')
 
@@ -277,15 +277,41 @@ with st.spinner(text="Plot predicted rides demand"):
     st.sidebar.write("Finished plotting taxi rides demand")
     progress_bar.progress(4 / N_STEPS)
 
-st.dataframe(predictions.sort_values("predicted_demand", ascending=False).head(10))
+
+lookup_url = 'https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv'
+lookup_df = pd.read_csv(lookup_url)
+
+lkp=lookup_df[["LocationID","Zone"]]
+df1=lkp.rename(columns={
+    "Zone": "Name",
+    "LocationID": "pickup_location_id"
+})
+df_cleaned = df1.dropna()
+# st.dataframe(df_cleaned.sort_values("pickup_location_id", ascending=False).head(10))
+merged_df = pd.merge(predictions, df_cleaned, how='left', on='pickup_location_id')
+
+# Display the merged DataFrame
+# print(merged_df.head())
+st.dataframe(merged_df.sort_values("predicted_demand", ascending=False).head(10))
 top10 = (
     predictions.sort_values("predicted_demand", ascending=False)
     .head(10)["pickup_location_id"]
     .to_list()
 )
-for location_id in top10:
-    fig = plot_prediction(
-        features=features[features["pickup_location_id"] == location_id],
-        prediction=predictions[predictions["pickup_location_id"] == location_id],
-    )
-    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+# for location_id in top10:
+#     fig = plot_prediction(
+#         features=features[features["pickup_location_id"] == location_id],
+#         prediction=predictions[predictions["pickup_location_id"] == location_id],
+#     )
+#     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+selected_location = st.selectbox("Select a Location", merged_df["Name"].unique())
+
+# Get the corresponding location ID
+selected_location_id = merged_df[merged_df["Name"] == selected_location]["pickup_location_id"].values[0]
+
+# Plot predictions for the selected location
+fig = plot_prediction(
+    features=features[features["pickup_location_id"] == selected_location_id],
+    prediction=predictions[predictions["pickup_location_id"] == selected_location_id],
+)
+st.plotly_chart(fig, theme="streamlit", use_container_width=True)

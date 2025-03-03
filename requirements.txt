@@ -1,7 +1,7 @@
 confluent-kafka
 folium
 geopandas
-hopsworks
+hopsworks==4.1.8
 ipywidgets
 lightgbm==4.5.0
 matplotlib
@@ -17,3 +17,4 @@ seaborn
 streamlit
 streamlit-folium
 xgboost
+statsmodels
